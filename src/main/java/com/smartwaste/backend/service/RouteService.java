@@ -8,30 +8,47 @@ import com.smartwaste.backend.entity.Route;
 import com.smartwaste.backend.repository.RouteRepository;
 
 @Service
-	public class RouteService {
+public class RouteService {
 
-	    private final RouteRepository routeRepository;
+    private final RouteRepository routeRepository;
 
-	    public RouteService(RouteRepository routeRepository) {
-	        this.routeRepository = routeRepository;
-	    }
+    public RouteService(RouteRepository routeRepository) {
+        this.routeRepository = routeRepository;
+    }
 
-	    public Route createRoute(Route route) {
-	        return routeRepository.save(route);
-	    }
+    /**
+     * CREATE NEW ROUTE
+     * IMPORTANT: id must be null so Hibernate performs INSERT
+     */
+    public Route createRoute(Route route) {
+        route.setId(null);            // 🔥 CRITICAL FIX
+        return routeRepository.save(route);
+    }
 
-	    public List<Route> getAllRoutes() {
-	        return routeRepository.findAll();
-	    }
+    /**
+     * GET ALL ROUTES
+     */
+    public List<Route> getAllRoutes() {
+        return routeRepository.findAll();
+    }
 
-	    public Route updateRoute(Long id, Route updated) {
-	        Route route = routeRepository.findById(id).orElseThrow();
-	        route.setRouteName(updated.getRouteName());
-	        return routeRepository.save(route);
-	    }
+    /**
+     * UPDATE EXISTING ROUTE
+     */
+    public Route updateRoute(Long id, Route updated) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Route not found"));
 
-	    public void deleteRoute(Long id) {
-	        routeRepository.deleteById(id);
-	    }
-	}
+        route.setRouteName(updated.getRouteName());
+        route.setActive(updated.isActive());
 
+        return routeRepository.save(route);
+    }
+
+    /**
+     * DELETE ROUTE
+     */
+    public void deleteRoute(Long id) {
+        routeRepository.deleteById(id);
+    }
+}

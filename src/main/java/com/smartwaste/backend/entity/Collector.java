@@ -1,4 +1,3 @@
-
 package com.smartwaste.backend.entity;
 
 import jakarta.persistence.Entity;
@@ -6,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "collectors")
 public class Collector {
@@ -14,42 +14,32 @@ public class Collector {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String vehicleId;
-    private String username;
-    private String password;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getVehicleId() {
-		return vehicleId;
-	}
-	public void setVehicleId(String vehicleId) {
-		this.vehicleId = vehicleId;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-    
-    
+    private String name;        // Collector name
+    private String vehicleId;   // TRUCK01, TRUCK02, etc.
 
-    // getters & setters
+    public Collector() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
+    }
 }

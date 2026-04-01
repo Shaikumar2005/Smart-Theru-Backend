@@ -1,39 +1,56 @@
 package com.smartwaste.backend.controller;
 
-
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.smartwaste.backend.entity.Collector;
-import com.smartwaste.backend.repository.CollectorRepository;
+import com.smartwaste.backend.service.CollectorService;
 
 @RestController
 @RequestMapping("/api/collectors")
 @CrossOrigin("*")
 public class CollectorController {
 
-    private final CollectorRepository repo;
+    private final CollectorService service;
 
-    public CollectorController(CollectorRepository repo) {
-        this.repo = repo;
+    public CollectorController(CollectorService service) {
+        this.service = service;
     }
 
-    @PostMapping("/login")
-    public Collector login(@RequestBody Collector c) {
-        return repo.findByUsername(c.getUsername())
-            .filter(x -> x.getPassword().equals(c.getPassword()))
-            .orElseThrow();
+    /**
+     * ADMIN: Create Collector
+     */
+    @PostMapping
+    public Collector create(@RequestBody Collector collector) {
+        return service.createCollector(collector);
     }
 
+    /**
+     * ADMIN: Get all collectors
+     */
     @GetMapping
-    public List<Collector> list() {
-        return repo.findAll();
+    public List<Collector> getAll() {
+        return service.getAllCollectors();
     }
-}
 
+    /**
+     * ADMIN: Update collector
+     */
+    @PutMapping("/{id}")
+    public Collector update(@PathVariable Long id,
+                            @RequestBody Collector collector) {
+        return service.updateCollector(id, collector);
+    }
+
+    /**
+     * ADMIN: Delete collector
+     */
+
+    // ✅ DELETE API (IMPORTANT)
+       @DeleteMapping("/{id}")
+       public void delete(@PathVariable Long id) {
+           service.deleteCollector(id);
+       }
+
+}

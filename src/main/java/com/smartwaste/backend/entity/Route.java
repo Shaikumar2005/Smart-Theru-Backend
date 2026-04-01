@@ -18,12 +18,14 @@ public class Route {
 
     private boolean active = true;
 
-    public Route() {} // ✅ IMPORTANT (Jackson needs this)
+    // ✅ REQUIRED for JPA & JSON
+    public Route() {}
 
     public Long getId() {
         return id;
     }
 
+    // Setter remains, but we DO NOT trust frontend values
     public void setId(Long id) {
         this.id = id;
     }
