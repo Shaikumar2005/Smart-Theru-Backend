@@ -1,15 +1,8 @@
 package com.smartwaste.backend.controller;
 
-
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.smartwaste.backend.entity.Assignment;
 import com.smartwaste.backend.service.AssignmentService;
@@ -25,16 +18,30 @@ public class AssignmentController {
         this.service = service;
     }
 
+    // ✅ ASSIGN ROUTE
     @PostMapping
     public Assignment assign(
-        @RequestParam Long routeId,
-        @RequestParam Long collectorId) {
+            @RequestParam Long routeId,
+            @RequestParam Long collectorId) {
         return service.assignRoute(routeId, collectorId);
     }
 
+    // ✅ GET ASSIGNMENTS FOR ONE COLLECTOR
     @GetMapping("/collector/{collectorId}")
     public List<Assignment> collectorAssignments(
-        @PathVariable Long collectorId) {
+            @PathVariable Long collectorId) {
         return service.getAssignmentsForCollector(collectorId);
+    }
+
+    // ✅ DE-ASSIGN ROUTE
+    @DeleteMapping("/{assignmentId}")
+    public void deAssign(@PathVariable Long assignmentId) {
+        service.deAssignRoute(assignmentId);
+    }
+
+    // ✅ ✅ ✅ THIS WAS MISSING (VERY IMPORTANT)
+    @GetMapping
+    public List<Assignment> getAllAssignments() {
+        return service.getAllAssignments();
     }
 }

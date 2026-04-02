@@ -1,7 +1,9 @@
 package com.smartwaste.backend.service;
 
 import java.time.LocalDate;
+
 import java.util.List;
+
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,8 @@ import com.smartwaste.backend.entity.Assignment;
 import com.smartwaste.backend.repository.AssignmentRepository;
 import com.smartwaste.backend.repository.CollectorRepository;
 import com.smartwaste.backend.repository.RouteRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class AssignmentService {
@@ -37,5 +41,13 @@ public class AssignmentService {
 
     public List<Assignment> getAssignmentsForCollector(Long collectorId) {
         return assignmentRepo.findByCollectorId(collectorId);
+    }
+    @Transactional
+    public void deAssignRoute(Long assignmentId) {
+        assignmentRepo.deleteById(assignmentId);
+    }
+    
+    public List<Assignment> getAllAssignments() {
+        return assignmentRepo.findAll();
     }
 }
